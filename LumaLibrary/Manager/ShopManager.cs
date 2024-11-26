@@ -17,13 +17,13 @@ namespace LumaLibrary.Manager
             ((IManager)Instance).Init();
         }
 
-        public delegate void ShopAwakeHandler(Shop instance);
+        public delegate void ShopPlaceHandler(Shop instance);
 
-        public event ShopAwakeHandler OnShopAwake;
+        public event ShopPlaceHandler OnShopPlaced;
 
-        public void TriggerOnAwakeEvent(Shop instance)
+        public void TriggerOnPlaceEvent(Shop instance)
         {
-            OnShopAwake.Invoke(instance);
+            OnShopPlaced.Invoke(instance);
         }
 
         public GameObject GetShop(string name)

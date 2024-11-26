@@ -13,7 +13,7 @@ namespace LumaLibrary.Patch
         [HarmonyPatch(nameof(Shop.OnPlace))]
         static void OnPlacePostfix(Shop __instance)
         {
-            ShopManager.Instance.TriggerOnAwakeEvent(__instance);
+            ShopManager.Instance.TriggerOnPlaceEvent(__instance);
         }
     }
 }

@@ -14,7 +14,12 @@ public class Plugin : BaseUnityPlugin
 
     private static GameObject rootObject;
 
-    internal static GameObject RootObject => GetRootObject();
+    internal static GameObject RootObject {
+        get
+        {
+            return rootObject;
+        }
+    }
 
     internal static Harmony Harmony = new Harmony(ModGUID);
 
