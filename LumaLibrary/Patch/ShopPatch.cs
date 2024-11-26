@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using LumaLibrary.Manager;
 
 namespace LumaLibrary.Patch
 {
@@ -6,13 +7,13 @@ namespace LumaLibrary.Patch
     /// Patching ingame shop's
     /// </summary>
     [HarmonyPatch(typeof(Shop))]
-    public class ShopPatch
+    public static class ShopPatch
     {
         [HarmonyPostfix]
         [HarmonyPatch(nameof(Shop.OnPlace))]
         static void OnPlacePostfix(Shop __instance)
         {
-            // ...
+            ShopManager.Instance.TriggerOnAwakeEvent(__instance);
         }
     }
 }

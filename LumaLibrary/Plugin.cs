@@ -1,6 +1,6 @@
 ﻿using BepInEx;
-using BepInEx.Logging;
 using HarmonyLib;
+using LumaLibrary.Utils;
 using UnityEngine;
 
 namespace LumaLibrary;
@@ -12,21 +12,17 @@ public class Plugin : BaseUnityPlugin
     public const string ModName = "LumaLibrary";
     public const string Version = "0.0.1";
 
-    internal static new ManualLogSource Logger;
-
     private static GameObject rootObject;
 
     internal static GameObject RootObject => GetRootObject();
 
     internal static Harmony Harmony = new Harmony(ModGUID);
 
+    internal static Plugin LumaInstance;
 
     private void Awake()
     {
-        // Plugin startup logic
-        Logger = base.Logger;
-        Logger.LogInfo($"Plugin {ModGUID} is loaded!");
-
+        LumaInstance = this;
         GetRootObject();
     }
 
@@ -40,5 +36,17 @@ public class Plugin : BaseUnityPlugin
         rootObject = new GameObject("_LumaLibrary");
         DontDestroyOnLoad(rootObject);
         return rootObject;
+    }
+
+    public static void LogInit(string module)
+    {
+        LumaLibrary.Logger.LogInfo($"Initializing {module}");
+
+        if (!LumaInstance)
+        {
+            string message = $"{module} was accessed before LumaLibrary Awake, this can cause unexpected behaviour. " +
+                             "Please make sure to add `[BepInDependency(LumaLibrary.Plugin.ModGUID)]` next to your BaseUnityPlugin";
+            LumaLibrary.Logger.LogWarning(BepInExUtils.GetSourceModMetadata(), message);
+        }
     }
 }
