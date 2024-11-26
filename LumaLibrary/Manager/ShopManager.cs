@@ -1,6 +1,8 @@
 ﻿using LumaLibrary.API;
 using LumaLibrary.Patch;
+using System;
 using UnityEngine;
+using LumaLibrary.Extension;
 
 namespace LumaLibrary.Manager
 {
@@ -17,16 +19,45 @@ namespace LumaLibrary.Manager
             ((IManager)Instance).Init();
         }
 
-        public delegate void ShopPlaceHandler(Shop instance);
-
-        public event ShopPlaceHandler OnShopPlaced;
+        public event Action<Shop> OnShopBenchPlaced;
+        public event Action<Shop> OnShopInteract;
 
         public void TriggerOnPlaceEvent(Shop instance)
         {
-            OnShopPlaced.Invoke(instance);
+            OnShopBenchPlaced?.SafeInvoke(instance);
         }
 
-        public GameObject GetShop(string name)
+        public void TriggerOnInteractEvent(Shop instance)
+        {
+            OnShopInteract?.SafeInvoke(instance);
+        }
+
+        /// <summary>
+        /// Get Shop component by shop name
+        /// </summary>
+        /// <param name="name">Shops - Constants</param>
+        /// <returns></returns>
+        public Shop GetShop(string name)
+        {
+            return GetShopGameObject(name).GetComponent<Shop>();
+        }
+
+        /// <summary>
+        /// Get GameObject shop
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public GameObject GetShopGameObject(string name)
+        {
+            return GameObject.Find(name);
+        }
+
+        /// <summary>
+        /// Get a GameObject bench
+        /// </summary>
+        /// <param name="name">Contstants -> Shops.*Bench*</param>
+        /// <returns></returns>
+        public GameObject GetShopBenchObject(string name)
         {
             return GameObject.Find(name);
         }

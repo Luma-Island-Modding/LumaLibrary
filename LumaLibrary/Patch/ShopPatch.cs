@@ -15,5 +15,12 @@ namespace LumaLibrary.Patch
         {
             ShopManager.Instance.TriggerOnPlaceEvent(__instance);
         }
+
+        [HarmonyPostfix]
+        [HarmonyPatch(nameof(Shop.Interact))]
+        static void OnInteractPostfix(Shop __instance)
+        {
+            ShopManager.Instance.TriggerOnInteractEvent(__instance);
+        }
     }
 }
