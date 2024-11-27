@@ -6,8 +6,8 @@ namespace LumaLibrary.Patch
     [HarmonyPatch(typeof(GameData))]
     public static class GameDataPatch
     {
-        [HarmonyPatch(nameof(GameData.IsInitialized), MethodType.Setter)]
         [HarmonyPostfix]
+        [HarmonyPatch(nameof(GameData.IsInitialized), MethodType.Setter)]
         public static void Initialize(bool value)
         {
             if(value)
