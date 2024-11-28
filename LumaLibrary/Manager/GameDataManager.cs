@@ -1,5 +1,4 @@
-﻿using HarmonyLib;
-using LumaLibrary.API;
+﻿using LumaLibrary.API;
 using LumaLibrary.Extension;
 using LumaLibrary.Patch;
 using System;
@@ -19,11 +18,11 @@ namespace LumaLibrary.Manager
             ((IManager)Instance).Init();
         }
 
-        public event Action<bool> OnGameInitialized;
+        public event Action<bool> OnGameDataInitialized;
 
         public void TriggerOnGameInitialized(bool value)
         {
-            OnGameInitialized?.SafeInvoke(value);
+            OnGameDataInitialized?.SafeInvoke(value);
         }
 
         void IManager.Init()

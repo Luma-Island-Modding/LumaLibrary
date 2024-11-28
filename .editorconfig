@@ -1,0 +1,7 @@
+﻿[*.cs]
+
+# IDE0022: Использовать тело блока для метода
+dotnet_diagnostic.IDE0022.severity = suggestion
+
+# Default severity for all analyzer diagnostics
+dotnet_analyzer_diagnostic.severity = warning

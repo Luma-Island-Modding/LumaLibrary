@@ -15,6 +15,8 @@ namespace LumaLibrary.Patch
             } else {
                 NetworkManager.Instance.TriggerOnStartHost();
             }
+
+            NetworkManager.Instance.TriggerNetworkInitialize();
         }
     }
 }

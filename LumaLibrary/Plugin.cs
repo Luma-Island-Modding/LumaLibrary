@@ -3,55 +3,50 @@ using HarmonyLib;
 using LumaLibrary.Utils;
 using UnityEngine;
 
-namespace LumaLibrary;
-
-[BepInPlugin(ModGUID, ModName, Version)]
-public class Plugin : BaseUnityPlugin
+namespace LumaLibrary
 {
-    public const string ModGUID = "etc.shikaru.lumalib";
-    public const string ModName = "LumaLibrary";
-    public const string Version = "0.0.2";
-
-    private static GameObject rootObject;
-
-    internal static GameObject RootObject {
-        get
-        {
-            return rootObject;
-        }
-    }
-
-    internal static Harmony Harmony = new Harmony(ModGUID);
-
-    internal static Plugin LumaInstance;
-
-    private void Awake()
+    [BepInPlugin(ModGUID, ModName, Version)]
+    public class Plugin : BaseUnityPlugin
     {
-        LumaInstance = this;
-        GetRootObject();
-    }
+        public const string ModGUID = "etc.shikaru.lumalib";
+        public const string ModName = "LumaLibrary";
+        public const string Version = "0.0.2";
 
-    private static GameObject GetRootObject()
-    {
-        if (rootObject)
+        internal static GameObject RootObject { get; private set; }
+
+        internal static Harmony Harmony = new(ModGUID);
+
+        internal static Plugin LumaInstance;
+
+        private void Awake()
         {
-            return rootObject;
+            LumaInstance = this;
+            RootObject = GetRootObject();
         }
 
-        rootObject = new GameObject("_LumaLibrary");
-        DontDestroyOnLoad(rootObject);
-        return rootObject;
-    }
-
-    public static void LogInit(string module)
-    {
-        LumaLibrary.Logger.LogInfo($"Initializing {module}");
-
-        if (!LumaInstance)
+        private static GameObject GetRootObject()
         {
-            string message = $"{module} was accessed before LumaLibrary Awake, this can cause unexpected behaviour. " +
-                             "Please make sure to add `[BepInDependency(LumaLibrary.Plugin.ModGUID)]` next to your BaseUnityPlugin";
-            LumaLibrary.Logger.LogWarning(BepInExUtils.GetSourceModMetadata(), message);
+            if (RootObject)
+            {
+                return RootObject;
+            }
+
+            RootObject = new GameObject("_LumaLibrary");
+            DontDestroyOnLoad(RootObject);
+
+            return RootObject;
+        }
+
+        public static void LogInit(string module)
+        {
+            LumaLibrary.Logger.LogInfo($"Initializing {module}");
+
+            if (!LumaInstance)
+            {
+                string message = $"{module} was accessed before LumaLibrary Awake, this can cause unexpected behaviour. " +
+                                 "Please make sure to add `[BepInDependency(LumaLibrary.Plugin.ModGUID)]` next to your BaseUnityPlugin";
+                LumaLibrary.Logger.LogWarning(BepInExUtils.GetSourceModMetadata(), message);
+            }
         }
     }
 }

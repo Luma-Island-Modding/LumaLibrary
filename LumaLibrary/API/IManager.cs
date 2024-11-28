@@ -1,4 +1,6 @@
-﻿namespace LumaLibrary.API
+﻿using System;
+
+namespace LumaLibrary.API
 {
     internal interface IManager
     {
